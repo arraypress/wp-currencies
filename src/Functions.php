@@ -15,9 +15,9 @@
  */
 
 // Exit if accessed directly
-use ArrayPress\Currencies\Currency;
-
 defined( 'ABSPATH' ) || exit;
+
+use ArrayPress\Currencies\Currency;
 
 if ( ! function_exists( 'format_currency' ) ) {
 	/**
