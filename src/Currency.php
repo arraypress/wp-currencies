@@ -423,4 +423,31 @@ class Currency {
 		return self::is_supported( $currency ) ? $currency : null;
 	}
 
+	/**
+	 * Sanitize and convert any currency input to the smallest unit
+	 * Handles both decimal (299.00) and cent (29900) inputs
+	 *
+	 * @param mixed  $amount   Amount in any format
+	 * @param string $currency Currency code
+	 *
+	 * @return int Amount in the smallest unit (cents)
+	 * @since 1.0.0
+	 */
+	public static function sanitize_to_cents( $amount, string $currency = 'USD' ): int {
+		// Handle null/empty
+		if ( empty( $amount ) ) {
+			return 0;
+		}
+
+		// If contains decimal point or comma, treat as decimal amount
+		if ( strpos( (string) $amount, '.' ) !== false || strpos( (string) $amount, ',' ) !== false ) {
+			$decimal = floatval( str_replace( ',', '.', (string) $amount ) );
+
+			return self::to_smallest_unit( $decimal, $currency );
+		}
+
+		// Assume already in the smallest unit
+		return (int) $amount;
+	}
+
 }

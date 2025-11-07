@@ -68,3 +68,18 @@ if ( ! function_exists( 'from_currency_cents' ) ) {
 		return Currency::from_smallest_unit( $amount, $currency );
 	}
 }
+
+if ( ! function_exists( 'sanitize_currency' ) ) {
+	/**
+	 * Sanitize any currency input to cents
+	 *
+	 * @param mixed  $amount   Amount in any format
+	 * @param string $currency Currency code
+	 *
+	 * @return int Amount in cents
+	 * @since 1.0.0
+	 */
+	function sanitize_currency( $amount, string $currency = 'USD' ): int {
+		return Currency::sanitize_to_cents( $amount, $currency );
+	}
+}
