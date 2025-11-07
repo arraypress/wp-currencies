@@ -450,4 +450,21 @@ class Currency {
 		return (int) $amount;
 	}
 
+	/**
+	 * Sanitize and convert cents to decimal for display in forms
+	 *
+	 * @param mixed  $amount   Amount in smallest unit
+	 * @param string $currency Currency code
+	 *
+	 * @return float Decimal amount (e.g., 299.00)
+	 * @since 1.0.0
+	 */
+	public static function sanitize_to_decimal( $amount, string $currency = 'USD' ): float {
+		if ( empty( $amount ) ) {
+			return 0.0;
+		}
+
+		return self::from_smallest_unit( (int) $amount, $currency );
+	}
+
 }
