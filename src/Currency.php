@@ -467,4 +467,64 @@ class Currency {
 		return self::from_smallest_unit( (int) $amount, $currency );
 	}
 
+	/**
+	 * Format a price with recurring interval information
+	 *
+	 * @param int         $amount         Amount in the smallest unit (cents)
+	 * @param string      $currency       Currency code
+	 * @param string|null $interval       Recurring interval (day/week/month/year)
+	 * @param int         $interval_count Number of intervals (default 1)
+	 *
+	 * @return string Formatted price with interval (e.g., "$99.00 per month")
+	 * @since 1.0.0
+	 */
+	public static function format_with_interval( int $amount, string $currency, ?string $interval = null, int $interval_count = 1 ): string {
+		$formatted_price = self::format( $amount, $currency );
+
+		if ( empty( $interval ) ) {
+			return $formatted_price;
+		}
+
+		$interval_text = self::get_interval_text( $interval, $interval_count );
+
+		return $formatted_price . ' ' . $interval_text;
+	}
+
+	/**
+	 * Get human-readable interval text
+	 *
+	 * @param string $interval       Interval type (day/week/month/year)
+	 * @param int    $interval_count Number of intervals
+	 *
+	 * @return string Formatted interval text (e.g., "per month", "every 3 months")
+	 * @since 1.0.0
+	 */
+	public static function get_interval_text( string $interval, int $interval_count = 1 ): string {
+		if ( $interval_count === 1 ) {
+			switch ( $interval ) {
+				case 'day':
+					return _x( 'per day', 'recurring interval', 'arraypress' );
+				case 'week':
+					return _x( 'per week', 'recurring interval', 'arraypress' );
+				case 'month':
+					return _x( 'per month', 'recurring interval', 'arraypress' );
+				case 'year':
+					return _x( 'per year', 'recurring interval', 'arraypress' );
+			}
+		} else {
+			switch ( $interval ) {
+				case 'day':
+					return sprintf( _n( 'every %d day', 'every %d days', $interval_count, 'arraypress' ), $interval_count );
+				case 'week':
+					return sprintf( _n( 'every %d week', 'every %d weeks', $interval_count, 'arraypress' ), $interval_count );
+				case 'month':
+					return sprintf( _n( 'every %d month', 'every %d months', $interval_count, 'arraypress' ), $interval_count );
+				case 'year':
+					return sprintf( _n( 'every %d year', 'every %d years', $interval_count, 'arraypress' ), $interval_count );
+			}
+		}
+
+		return '';
+	}
+
 }

@@ -101,3 +101,20 @@ if ( ! function_exists( 'sanitize_to_decimal' ) ) {
 		return Currency::sanitize_to_decimal( $amount, $currency );
 	}
 }
+
+if ( ! function_exists( 'format_price_interval' ) ) {
+	/**
+	 * Format price with optional recurring interval
+	 *
+	 * @param mixed       $amount         Amount in the smallest unit (cents)
+	 * @param string      $currency       Currency code
+	 * @param string|null $interval       Recurring interval
+	 * @param int         $interval_count Interval count
+	 *
+	 * @return string Formatted price with interval
+	 * @since 1.0.0
+	 */
+	function format_price_interval( $amount, string $currency, ?string $interval = null, int $interval_count = 1 ): string {
+		return Currency::format_with_interval( (int) $amount, $currency, $interval, $interval_count );
+	}
+}
