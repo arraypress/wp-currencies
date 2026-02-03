@@ -213,7 +213,7 @@ class Currency {
 		}
 
 		$is_negative = $amount < 0;
-		$abs_amount = abs( $amount );
+		$abs_amount  = abs( $amount );
 
 		// Convert from the smallest unit
 		if ( $config['decimals'] === 0 ) {
@@ -470,6 +470,109 @@ class Currency {
 		}
 
 		return '';
+	}
+
+	/**
+	 * Resolve currency code from an item object
+	 *
+	 * Checks for a get_currency() method, a currency property, or falls back
+	 * to the provided default.
+	 *
+	 * @param object|null $item    Data object to check for currency.
+	 * @param string      $default Default currency code if not found.
+	 *
+	 * @return string Currency code (uppercase).
+	 */
+	public static function resolve( $item, string $default = 'USD' ): string {
+		if ( $item && method_exists( $item, 'get_currency' ) ) {
+			$currency = $item->get_currency();
+			if ( ! empty( $currency ) ) {
+				return strtoupper( $currency );
+			}
+		}
+
+		if ( is_object( $item ) && property_exists( $item, 'currency' ) && ! empty( $item->currency ) ) {
+			return strtoupper( $item->currency );
+		}
+
+		return strtoupper( $default );
+	}
+
+	/**
+	 * Resolve recurring interval from an item object
+	 *
+	 * Checks for interval-related methods or properties on the item.
+	 *
+	 * @param object|null $item Data object to check for interval.
+	 *
+	 * @return array{interval: string|null, interval_count: int}
+	 */
+	public static function resolve_interval( $item ): array {
+		$interval       = null;
+		$interval_count = 1;
+
+		if ( $item && method_exists( $item, 'get_recurring_interval' ) ) {
+			$interval = $item->get_recurring_interval() ?: null;
+		} elseif ( is_object( $item ) && property_exists( $item, 'recurring_interval' ) ) {
+			$interval = $item->recurring_interval ?: null;
+		}
+
+		if ( $interval ) {
+			if ( $item && method_exists( $item, 'get_recurring_interval_count' ) ) {
+				$interval_count = (int) ( $item->get_recurring_interval_count() ?: 1 );
+			} elseif ( is_object( $item ) && property_exists( $item, 'recurring_interval_count' ) ) {
+				$interval_count = (int) ( $item->recurring_interval_count ?: 1 );
+			}
+		}
+
+		return [
+			'interval'       => $interval,
+			'interval_count' => $interval_count,
+		];
+	}
+
+	/**
+	 * Render a price amount as formatted HTML with optional recurring interval
+	 *
+	 * Converts an amount in the smallest currency unit to a formatted string.
+	 * Currency and interval are resolved from the item object when not explicitly
+	 * provided. One-time prices show the amount only. Recurring prices append
+	 * the interval (e.g., "per month").
+	 *
+	 * @param mixed       $value          Amount in smallest unit (e.g., cents).
+	 * @param object|null $item           Data object (checked for currency, interval properties).
+	 * @param string      $currency       Optional currency code override.
+	 * @param string|null $interval       Optional interval override.
+	 * @param int|null    $interval_count Optional interval count override.
+	 *
+	 * @return string|null HTML string or null if value is not numeric.
+	 */
+	public static function render( $value, $item = null, string $currency = '', ?string $interval = null, ?int $interval_count = null ): ?string {
+		if ( ! is_numeric( $value ) ) {
+			return null;
+		}
+
+		if ( empty( $currency ) ) {
+			$currency = self::resolve( $item );
+		}
+
+		if ( $interval === null && $interval_count === null ) {
+			$resolved       = self::resolve_interval( $item );
+			$interval       = $resolved['interval'];
+			$interval_count = $resolved['interval_count'];
+		}
+
+		$formatted = self::format_with_interval(
+			intval( $value ),
+			$currency,
+			$interval,
+			$interval_count ?? 1
+		);
+
+		return sprintf(
+			'<span class="price">%s</span>',
+			esc_html( $formatted )
+		);
 	}
 
 }
