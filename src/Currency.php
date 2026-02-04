@@ -37,172 +37,177 @@ class Currency {
 	 */
 	private const CURRENCIES = [
 		// Major Currencies
-		'USD' => [ 'symbol' => '$', 'decimals' => 2 ],        // US Dollar
-		'EUR' => [ 'symbol' => '€', 'decimals' => 2 ],        // Euro
-		'GBP' => [ 'symbol' => '£', 'decimals' => 2 ],        // British Pound
-		'JPY' => [ 'symbol' => '¥', 'decimals' => 0 ],        // Japanese Yen - ZERO DECIMAL
-		'CNY' => [ 'symbol' => '¥', 'decimals' => 2 ],        // Chinese Yuan
+		'USD' => [ 'symbol' => '$', 'decimals' => 2, 'locale' => 'en_US' ],
+		'EUR' => [ 'symbol' => '€', 'decimals' => 2, 'locale' => 'de_DE' ],
+		'GBP' => [ 'symbol' => '£', 'decimals' => 2, 'locale' => 'en_GB' ],
+		'JPY' => [ 'symbol' => '¥', 'decimals' => 0, 'locale' => 'ja_JP' ],
+		'CNY' => [ 'symbol' => '¥', 'decimals' => 2, 'locale' => 'zh_CN' ],
 
 		// Americas
-		'CAD' => [ 'symbol' => 'C$', 'decimals' => 2 ],       // Canadian Dollar
-		'MXN' => [ 'symbol' => '$', 'decimals' => 2 ],        // Mexican Peso
-		'BRL' => [ 'symbol' => 'R$', 'decimals' => 2 ],       // Brazilian Real
-		'ARS' => [ 'symbol' => '$', 'decimals' => 2 ],        // Argentine Peso
-		'COP' => [ 'symbol' => '$', 'decimals' => 2 ],        // Colombian Peso
-		'PEN' => [ 'symbol' => 'S/', 'decimals' => 2 ],       // Peruvian Sol
-		'CLP' => [ 'symbol' => '$', 'decimals' => 0 ],        // Chilean Peso - ZERO DECIMAL
-		'UYU' => [ 'symbol' => '$U', 'decimals' => 2 ],       // Uruguayan Peso
-		'PYG' => [ 'symbol' => '₲', 'decimals' => 0 ],        // Paraguayan Guarani - ZERO DECIMAL
-		'BOB' => [ 'symbol' => 'Bs', 'decimals' => 2 ],       // Bolivian Boliviano
-		'CRC' => [ 'symbol' => '₡', 'decimals' => 2 ],        // Costa Rican Colón
-		'DOP' => [ 'symbol' => 'RD$', 'decimals' => 2 ],      // Dominican Peso
-		'GTQ' => [ 'symbol' => 'Q', 'decimals' => 2 ],        // Guatemalan Quetzal
-		'HNL' => [ 'symbol' => 'L', 'decimals' => 2 ],        // Honduran Lempira
-		'NIO' => [ 'symbol' => 'C$', 'decimals' => 2 ],       // Nicaraguan Córdoba
-		'PAB' => [ 'symbol' => 'B/', 'decimals' => 2 ],       // Panamanian Balboa
+		'CAD' => [ 'symbol' => 'C$', 'decimals' => 2, 'locale' => 'en_CA' ],
+		'MXN' => [ 'symbol' => '$', 'decimals' => 2, 'locale' => 'es_MX' ],
+		'BRL' => [ 'symbol' => 'R$', 'decimals' => 2, 'locale' => 'pt_BR' ],
+		'ARS' => [ 'symbol' => '$', 'decimals' => 2, 'locale' => 'es_AR' ],
+		'COP' => [ 'symbol' => '$', 'decimals' => 2, 'locale' => 'es_CO' ],
+		'PEN' => [ 'symbol' => 'S/', 'decimals' => 2, 'locale' => 'es_PE' ],
+		'CLP' => [ 'symbol' => '$', 'decimals' => 0, 'locale' => 'es_CL' ],
+		'UYU' => [ 'symbol' => '$U', 'decimals' => 2, 'locale' => 'es_UY' ],
+		'PYG' => [ 'symbol' => '₲', 'decimals' => 0, 'locale' => 'es_PY' ],
+		'BOB' => [ 'symbol' => 'Bs', 'decimals' => 2, 'locale' => 'es_BO' ],
+		'CRC' => [ 'symbol' => '₡', 'decimals' => 2, 'locale' => 'es_CR' ],
+		'DOP' => [ 'symbol' => 'RD$', 'decimals' => 2, 'locale' => 'es_DO' ],
+		'GTQ' => [ 'symbol' => 'Q', 'decimals' => 2, 'locale' => 'es_GT' ],
+		'HNL' => [ 'symbol' => 'L', 'decimals' => 2, 'locale' => 'es_HN' ],
+		'NIO' => [ 'symbol' => 'C$', 'decimals' => 2, 'locale' => 'es_NI' ],
+		'PAB' => [ 'symbol' => 'B/', 'decimals' => 2, 'locale' => 'es_PA' ],
 
 		// Europe (Non-Euro)
-		'CHF' => [ 'symbol' => 'CHF', 'decimals' => 2 ],      // Swiss Franc
-		'SEK' => [ 'symbol' => 'kr', 'decimals' => 2 ],       // Swedish Krona
-		'DKK' => [ 'symbol' => 'kr', 'decimals' => 2 ],       // Danish Krone
-		'NOK' => [ 'symbol' => 'kr', 'decimals' => 2 ],       // Norwegian Krone
-		'ISK' => [ 'symbol' => 'kr', 'decimals' => 0 ],       // Icelandic Króna - ZERO DECIMAL
-		'PLN' => [ 'symbol' => 'zł', 'decimals' => 2 ],       // Polish Złoty
-		'CZK' => [ 'symbol' => 'Kč', 'decimals' => 2 ],       // Czech Koruna
-		'HUF' => [ 'symbol' => 'Ft', 'decimals' => 0 ],       // Hungarian Forint - ZERO DECIMAL
-		'RON' => [ 'symbol' => 'lei', 'decimals' => 2 ],      // Romanian Leu
-		'BGN' => [ 'symbol' => 'лв', 'decimals' => 2 ],       // Bulgarian Lev
-		'HRK' => [ 'symbol' => 'kn', 'decimals' => 2 ],       // Croatian Kuna
-		'RSD' => [ 'symbol' => 'din', 'decimals' => 2 ],      // Serbian Dinar
-		'MKD' => [ 'symbol' => 'ден', 'decimals' => 2 ],      // Macedonian Denar
-		'MDL' => [ 'symbol' => 'L', 'decimals' => 2 ],        // Moldovan Leu
-		'UAH' => [ 'symbol' => '₴', 'decimals' => 2 ],        // Ukrainian Hryvnia
-		'GEL' => [ 'symbol' => '₾', 'decimals' => 2 ],        // Georgian Lari
-		'ALL' => [ 'symbol' => 'L', 'decimals' => 2 ],        // Albanian Lek
-		'BAM' => [ 'symbol' => 'KM', 'decimals' => 2 ],       // Bosnia-Herzegovina Mark
+		'CHF' => [ 'symbol' => 'CHF', 'decimals' => 2, 'locale' => 'de_CH' ],
+		'SEK' => [ 'symbol' => 'kr', 'decimals' => 2, 'locale' => 'sv_SE' ],
+		'DKK' => [ 'symbol' => 'kr', 'decimals' => 2, 'locale' => 'da_DK' ],
+		'NOK' => [ 'symbol' => 'kr', 'decimals' => 2, 'locale' => 'nb_NO' ],
+		'ISK' => [ 'symbol' => 'kr', 'decimals' => 0, 'locale' => 'is_IS' ],
+		'PLN' => [ 'symbol' => 'zł', 'decimals' => 2, 'locale' => 'pl_PL' ],
+		'CZK' => [ 'symbol' => 'Kč', 'decimals' => 2, 'locale' => 'cs_CZ' ],
+		'HUF' => [ 'symbol' => 'Ft', 'decimals' => 0, 'locale' => 'hu_HU' ],
+		'RON' => [ 'symbol' => 'lei', 'decimals' => 2, 'locale' => 'ro_RO' ],
+		'BGN' => [ 'symbol' => 'лв', 'decimals' => 2, 'locale' => 'bg_BG' ],
+		'HRK' => [ 'symbol' => 'kn', 'decimals' => 2, 'locale' => 'hr_HR' ],
+		'RSD' => [ 'symbol' => 'din', 'decimals' => 2, 'locale' => 'sr_RS' ],
+		'MKD' => [ 'symbol' => 'ден', 'decimals' => 2, 'locale' => 'mk_MK' ],
+		'MDL' => [ 'symbol' => 'L', 'decimals' => 2, 'locale' => 'ro_MD' ],
+		'UAH' => [ 'symbol' => '₴', 'decimals' => 2, 'locale' => 'uk_UA' ],
+		'GEL' => [ 'symbol' => '₾', 'decimals' => 2, 'locale' => 'ka_GE' ],
+		'ALL' => [ 'symbol' => 'L', 'decimals' => 2, 'locale' => 'sq_AL' ],
+		'BAM' => [ 'symbol' => 'KM', 'decimals' => 2, 'locale' => 'bs_BA' ],
 
 		// Asia-Pacific
-		'HKD' => [ 'symbol' => 'HK$', 'decimals' => 2 ],      // Hong Kong Dollar
-		'TWD' => [ 'symbol' => 'NT$', 'decimals' => 0 ],      // Taiwan Dollar - ZERO DECIMAL
-		'KRW' => [ 'symbol' => '₩', 'decimals' => 0 ],        // South Korean Won - ZERO DECIMAL
-		'SGD' => [ 'symbol' => 'S$', 'decimals' => 2 ],       // Singapore Dollar
-		'THB' => [ 'symbol' => '฿', 'decimals' => 2 ],        // Thai Baht
-		'MYR' => [ 'symbol' => 'RM', 'decimals' => 2 ],       // Malaysian Ringgit
-		'PHP' => [ 'symbol' => '₱', 'decimals' => 2 ],        // Philippine Peso
-		'IDR' => [ 'symbol' => 'Rp', 'decimals' => 2 ],       // Indonesian Rupiah
-		'VND' => [ 'symbol' => '₫', 'decimals' => 0 ],        // Vietnamese Dong - ZERO DECIMAL
-		'INR' => [ 'symbol' => '₹', 'decimals' => 2 ],        // Indian Rupee
-		'PKR' => [ 'symbol' => '₨', 'decimals' => 2 ],       // Pakistani Rupee
-		'BDT' => [ 'symbol' => '৳', 'decimals' => 2 ],        // Bangladeshi Taka
-		'LKR' => [ 'symbol' => 'Rs', 'decimals' => 2 ],       // Sri Lankan Rupee
-		'NPR' => [ 'symbol' => '₨', 'decimals' => 2 ],       // Nepalese Rupee
-		'MMK' => [ 'symbol' => 'K', 'decimals' => 2 ],        // Myanmar Kyat
-		'KHR' => [ 'symbol' => '៛', 'decimals' => 2 ],        // Cambodian Riel
-		'LAK' => [ 'symbol' => '₭', 'decimals' => 2 ],        // Lao Kip
-		'MNT' => [ 'symbol' => '₮', 'decimals' => 2 ],        // Mongolian Tugrik
-		'BND' => [ 'symbol' => '$', 'decimals' => 2 ],        // Brunei Dollar
-		'PGK' => [ 'symbol' => 'K', 'decimals' => 2 ],        // Papua New Guinea Kina
-		'FJD' => [ 'symbol' => '$', 'decimals' => 2 ],        // Fijian Dollar
-		'SBD' => [ 'symbol' => '$', 'decimals' => 2 ],        // Solomon Islands Dollar
-		'TOP' => [ 'symbol' => 'T$', 'decimals' => 2 ],       // Tongan Paʻanga
-		'VUV' => [ 'symbol' => 'VT', 'decimals' => 0 ],       // Vanuatu Vatu - ZERO DECIMAL
-		'WST' => [ 'symbol' => 'WS$', 'decimals' => 2 ],      // Samoan Tala
-		'MVR' => [ 'symbol' => 'Rf', 'decimals' => 2 ],       // Maldivian Rufiyaa
+		'HKD' => [ 'symbol' => 'HK$', 'decimals' => 2, 'locale' => 'zh_HK' ],
+		'TWD' => [ 'symbol' => 'NT$', 'decimals' => 0, 'locale' => 'zh_TW' ],
+		'KRW' => [ 'symbol' => '₩', 'decimals' => 0, 'locale' => 'ko_KR' ],
+		'SGD' => [ 'symbol' => 'S$', 'decimals' => 2, 'locale' => 'en_SG' ],
+		'THB' => [ 'symbol' => '฿', 'decimals' => 2, 'locale' => 'th_TH' ],
+		'MYR' => [ 'symbol' => 'RM', 'decimals' => 2, 'locale' => 'ms_MY' ],
+		'PHP' => [ 'symbol' => '₱', 'decimals' => 2, 'locale' => 'en_PH' ],
+		'IDR' => [ 'symbol' => 'Rp', 'decimals' => 2, 'locale' => 'id_ID' ],
+		'VND' => [ 'symbol' => '₫', 'decimals' => 0, 'locale' => 'vi_VN' ],
+		'INR' => [ 'symbol' => '₹', 'decimals' => 2, 'locale' => 'en_IN' ],
+		'PKR' => [ 'symbol' => '₨', 'decimals' => 2, 'locale' => 'ur_PK' ],
+		'BDT' => [ 'symbol' => '৳', 'decimals' => 2, 'locale' => 'bn_BD' ],
+		'LKR' => [ 'symbol' => 'Rs', 'decimals' => 2, 'locale' => 'si_LK' ],
+		'NPR' => [ 'symbol' => '₨', 'decimals' => 2, 'locale' => 'ne_NP' ],
+		'MMK' => [ 'symbol' => 'K', 'decimals' => 2, 'locale' => 'my_MM' ],
+		'KHR' => [ 'symbol' => '៛', 'decimals' => 2, 'locale' => 'km_KH' ],
+		'LAK' => [ 'symbol' => '₭', 'decimals' => 2, 'locale' => 'lo_LA' ],
+		'MNT' => [ 'symbol' => '₮', 'decimals' => 2, 'locale' => 'mn_MN' ],
+		'BND' => [ 'symbol' => '$', 'decimals' => 2, 'locale' => 'ms_BN' ],
+		'PGK' => [ 'symbol' => 'K', 'decimals' => 2, 'locale' => 'en_PG' ],
+		'FJD' => [ 'symbol' => '$', 'decimals' => 2, 'locale' => 'en_FJ' ],
+		'SBD' => [ 'symbol' => '$', 'decimals' => 2, 'locale' => 'en_SB' ],
+		'TOP' => [ 'symbol' => 'T$', 'decimals' => 2, 'locale' => 'to_TO' ],
+		'VUV' => [ 'symbol' => 'VT', 'decimals' => 0, 'locale' => 'en_VU' ],
+		'WST' => [ 'symbol' => 'WS$', 'decimals' => 2, 'locale' => 'en_WS' ],
+		'MVR' => [ 'symbol' => 'Rf', 'decimals' => 2, 'locale' => 'dv_MV' ],
 
 		// Oceania
-		'AUD' => [ 'symbol' => 'A$', 'decimals' => 2 ],       // Australian Dollar
-		'NZD' => [ 'symbol' => 'NZ$', 'decimals' => 2 ],      // New Zealand Dollar
+		'AUD' => [ 'symbol' => 'A$', 'decimals' => 2, 'locale' => 'en_AU' ],
+		'NZD' => [ 'symbol' => 'NZ$', 'decimals' => 2, 'locale' => 'en_NZ' ],
 
 		// Middle East
-		'AED' => [ 'symbol' => 'د.إ', 'decimals' => 2 ],      // UAE Dirham
-		'SAR' => [ 'symbol' => 'SR', 'decimals' => 2 ],       // Saudi Riyal
-		'QAR' => [ 'symbol' => 'QR', 'decimals' => 2 ],       // Qatari Riyal
-		'OMR' => [ 'symbol' => 'ر.ع.', 'decimals' => 3 ],     // Omani Rial - THREE DECIMAL
-		'KWD' => [ 'symbol' => 'KD', 'decimals' => 3 ],       // Kuwaiti Dinar - THREE DECIMAL
-		'BHD' => [ 'symbol' => 'BD', 'decimals' => 3 ],       // Bahraini Dinar - THREE DECIMAL
-		'JOD' => [ 'symbol' => 'JD', 'decimals' => 3 ],       // Jordanian Dinar - THREE DECIMAL
-		'ILS' => [ 'symbol' => '₪', 'decimals' => 2 ],        // Israeli Shekel
-		'TRY' => [ 'symbol' => '₺', 'decimals' => 2 ],        // Turkish Lira
-		'LBP' => [ 'symbol' => 'ل.ل', 'decimals' => 2 ],      // Lebanese Pound
+		'AED' => [ 'symbol' => 'د.إ', 'decimals' => 2, 'locale' => 'ar_AE' ],
+		'SAR' => [ 'symbol' => 'SR', 'decimals' => 2, 'locale' => 'ar_SA' ],
+		'QAR' => [ 'symbol' => 'QR', 'decimals' => 2, 'locale' => 'ar_QA' ],
+		'OMR' => [ 'symbol' => 'ر.ع.', 'decimals' => 3, 'locale' => 'ar_OM' ],
+		'KWD' => [ 'symbol' => 'KD', 'decimals' => 3, 'locale' => 'ar_KW' ],
+		'BHD' => [ 'symbol' => 'BD', 'decimals' => 3, 'locale' => 'ar_BH' ],
+		'JOD' => [ 'symbol' => 'JD', 'decimals' => 3, 'locale' => 'ar_JO' ],
+		'ILS' => [ 'symbol' => '₪', 'decimals' => 2, 'locale' => 'he_IL' ],
+		'TRY' => [ 'symbol' => '₺', 'decimals' => 2, 'locale' => 'tr_TR' ],
+		'LBP' => [ 'symbol' => 'ل.ل', 'decimals' => 2, 'locale' => 'ar_LB' ],
 
 		// Africa
-		'ZAR' => [ 'symbol' => 'R', 'decimals' => 2 ],        // South African Rand
-		'EGP' => [ 'symbol' => 'E£', 'decimals' => 2 ],       // Egyptian Pound
-		'NGN' => [ 'symbol' => '₦', 'decimals' => 2 ],        // Nigerian Naira
-		'KES' => [ 'symbol' => 'KSh', 'decimals' => 2 ],      // Kenyan Shilling
-		'GHS' => [ 'symbol' => '₵', 'decimals' => 2 ],        // Ghanaian Cedi
-		'MAD' => [ 'symbol' => 'MAD', 'decimals' => 2 ],      // Moroccan Dirham
-		'TND' => [ 'symbol' => 'DT', 'decimals' => 3 ],       // Tunisian Dinar - THREE DECIMAL
-		'DZD' => [ 'symbol' => 'DA', 'decimals' => 2 ],       // Algerian Dinar
-		'ETB' => [ 'symbol' => 'Br', 'decimals' => 2 ],       // Ethiopian Birr
-		'UGX' => [ 'symbol' => 'USh', 'decimals' => 0 ],      // Ugandan Shilling - ZERO DECIMAL
-		'TZS' => [ 'symbol' => 'TSh', 'decimals' => 2 ],      // Tanzanian Shilling
-		'RWF' => [ 'symbol' => 'FRw', 'decimals' => 0 ],      // Rwandan Franc - ZERO DECIMAL
-		'MUR' => [ 'symbol' => '₨', 'decimals' => 2 ],       // Mauritian Rupee
-		'SCR' => [ 'symbol' => '₨', 'decimals' => 2 ],       // Seychellois Rupee
-		'MZN' => [ 'symbol' => 'MT', 'decimals' => 2 ],       // Mozambican Metical
-		'ZMW' => [ 'symbol' => 'ZK', 'decimals' => 2 ],       // Zambian Kwacha
-		'BWP' => [ 'symbol' => 'P', 'decimals' => 2 ],        // Botswanan Pula
-		'NAD' => [ 'symbol' => '$', 'decimals' => 2 ],        // Namibian Dollar
-		'SZL' => [ 'symbol' => 'L', 'decimals' => 2 ],        // Swazi Lilangeni
-		'LSL' => [ 'symbol' => 'L', 'decimals' => 2 ],        // Lesotho Loti
-		'MWK' => [ 'symbol' => 'MK', 'decimals' => 2 ],       // Malawian Kwacha
-		'AOA' => [ 'symbol' => 'Kz', 'decimals' => 2 ],       // Angolan Kwanza
-		'BIF' => [ 'symbol' => 'FBu', 'decimals' => 0 ],      // Burundian Franc - ZERO DECIMAL
-		'DJF' => [ 'symbol' => 'Fdj', 'decimals' => 0 ],      // Djiboutian Franc - ZERO DECIMAL
-		'GNF' => [ 'symbol' => 'FG', 'decimals' => 0 ],       // Guinean Franc - ZERO DECIMAL
-		'KMF' => [ 'symbol' => 'CF', 'decimals' => 0 ],       // Comorian Franc - ZERO DECIMAL
-		'CDF' => [ 'symbol' => 'FC', 'decimals' => 2 ],       // Congolese Franc
-		'MGA' => [ 'symbol' => 'Ar', 'decimals' => 0 ],       // Malagasy Ariary - ZERO DECIMAL
-		'XAF' => [ 'symbol' => 'FCFA', 'decimals' => 0 ],     // Central African CFA Franc - ZERO DECIMAL
-		'XOF' => [ 'symbol' => 'CFA', 'decimals' => 0 ],      // West African CFA Franc - ZERO DECIMAL
+		'ZAR' => [ 'symbol' => 'R', 'decimals' => 2, 'locale' => 'en_ZA' ],
+		'EGP' => [ 'symbol' => 'E£', 'decimals' => 2, 'locale' => 'ar_EG' ],
+		'NGN' => [ 'symbol' => '₦', 'decimals' => 2, 'locale' => 'en_NG' ],
+		'KES' => [ 'symbol' => 'KSh', 'decimals' => 2, 'locale' => 'en_KE' ],
+		'GHS' => [ 'symbol' => '₵', 'decimals' => 2, 'locale' => 'en_GH' ],
+		'MAD' => [ 'symbol' => 'MAD', 'decimals' => 2, 'locale' => 'ar_MA' ],
+		'TND' => [ 'symbol' => 'DT', 'decimals' => 3, 'locale' => 'ar_TN' ],
+		'DZD' => [ 'symbol' => 'DA', 'decimals' => 2, 'locale' => 'ar_DZ' ],
+		'ETB' => [ 'symbol' => 'Br', 'decimals' => 2, 'locale' => 'am_ET' ],
+		'UGX' => [ 'symbol' => 'USh', 'decimals' => 0, 'locale' => 'en_UG' ],
+		'TZS' => [ 'symbol' => 'TSh', 'decimals' => 2, 'locale' => 'en_TZ' ],
+		'RWF' => [ 'symbol' => 'FRw', 'decimals' => 0, 'locale' => 'rw_RW' ],
+		'MUR' => [ 'symbol' => '₨', 'decimals' => 2, 'locale' => 'en_MU' ],
+		'SCR' => [ 'symbol' => '₨', 'decimals' => 2, 'locale' => 'en_SC' ],
+		'MZN' => [ 'symbol' => 'MT', 'decimals' => 2, 'locale' => 'pt_MZ' ],
+		'ZMW' => [ 'symbol' => 'ZK', 'decimals' => 2, 'locale' => 'en_ZM' ],
+		'BWP' => [ 'symbol' => 'P', 'decimals' => 2, 'locale' => 'en_BW' ],
+		'NAD' => [ 'symbol' => '$', 'decimals' => 2, 'locale' => 'en_NA' ],
+		'SZL' => [ 'symbol' => 'L', 'decimals' => 2, 'locale' => 'en_SZ' ],
+		'LSL' => [ 'symbol' => 'L', 'decimals' => 2, 'locale' => 'en_LS' ],
+		'MWK' => [ 'symbol' => 'MK', 'decimals' => 2, 'locale' => 'en_MW' ],
+		'AOA' => [ 'symbol' => 'Kz', 'decimals' => 2, 'locale' => 'pt_AO' ],
+		'BIF' => [ 'symbol' => 'FBu', 'decimals' => 0, 'locale' => 'rn_BI' ],
+		'DJF' => [ 'symbol' => 'Fdj', 'decimals' => 0, 'locale' => 'fr_DJ' ],
+		'GNF' => [ 'symbol' => 'FG', 'decimals' => 0, 'locale' => 'fr_GN' ],
+		'KMF' => [ 'symbol' => 'CF', 'decimals' => 0, 'locale' => 'fr_KM' ],
+		'CDF' => [ 'symbol' => 'FC', 'decimals' => 2, 'locale' => 'fr_CD' ],
+		'MGA' => [ 'symbol' => 'Ar', 'decimals' => 0, 'locale' => 'mg_MG' ],
+		'XAF' => [ 'symbol' => 'FCFA', 'decimals' => 0, 'locale' => 'fr_CM' ],
+		'XOF' => [ 'symbol' => 'CFA', 'decimals' => 0, 'locale' => 'fr_SN' ],
 
 		// Caribbean
-		'JMD' => [ 'symbol' => 'J$', 'decimals' => 2 ],       // Jamaican Dollar
-		'TTD' => [ 'symbol' => 'TT$', 'decimals' => 2 ],      // Trinidad and Tobago Dollar
-		'BBD' => [ 'symbol' => '$', 'decimals' => 2 ],        // Barbadian Dollar
-		'BSD' => [ 'symbol' => '$', 'decimals' => 2 ],        // Bahamian Dollar
-		'BZD' => [ 'symbol' => 'BZ$', 'decimals' => 2 ],      // Belize Dollar
-		'BMD' => [ 'symbol' => '$', 'decimals' => 2 ],        // Bermudian Dollar
-		'KYD' => [ 'symbol' => '$', 'decimals' => 2 ],        // Cayman Islands Dollar
-		'XCD' => [ 'symbol' => '$', 'decimals' => 2 ],        // East Caribbean Dollar
-		'AWG' => [ 'symbol' => 'ƒ', 'decimals' => 2 ],        // Aruban Florin
-		'ANG' => [ 'symbol' => 'ƒ', 'decimals' => 2 ],        // Netherlands Antillean Guilder
-		'HTG' => [ 'symbol' => 'G', 'decimals' => 2 ],        // Haitian Gourde
+		'JMD' => [ 'symbol' => 'J$', 'decimals' => 2, 'locale' => 'en_JM' ],
+		'TTD' => [ 'symbol' => 'TT$', 'decimals' => 2, 'locale' => 'en_TT' ],
+		'BBD' => [ 'symbol' => '$', 'decimals' => 2, 'locale' => 'en_BB' ],
+		'BSD' => [ 'symbol' => '$', 'decimals' => 2, 'locale' => 'en_BS' ],
+		'BZD' => [ 'symbol' => 'BZ$', 'decimals' => 2, 'locale' => 'en_BZ' ],
+		'BMD' => [ 'symbol' => '$', 'decimals' => 2, 'locale' => 'en_BM' ],
+		'KYD' => [ 'symbol' => '$', 'decimals' => 2, 'locale' => 'en_KY' ],
+		'XCD' => [ 'symbol' => '$', 'decimals' => 2, 'locale' => 'en_AG' ],
+		'AWG' => [ 'symbol' => 'ƒ', 'decimals' => 2, 'locale' => 'nl_AW' ],
+		'ANG' => [ 'symbol' => 'ƒ', 'decimals' => 2, 'locale' => 'nl_CW' ],
+		'HTG' => [ 'symbol' => 'G', 'decimals' => 2, 'locale' => 'fr_HT' ],
 
 		// Former Soviet States
-		'RUB' => [ 'symbol' => '₽', 'decimals' => 2 ],        // Russian Ruble
-		'KZT' => [ 'symbol' => '₸', 'decimals' => 2 ],        // Kazakhstani Tenge
-		'UZS' => [ 'symbol' => 'лв', 'decimals' => 2 ],       // Uzbekistani Som
-		'AZN' => [ 'symbol' => '₼', 'decimals' => 2 ],        // Azerbaijani Manat
-		'AMD' => [ 'symbol' => '֏', 'decimals' => 2 ],        // Armenian Dram
-		'KGS' => [ 'symbol' => 'лв', 'decimals' => 2 ],       // Kyrgyzstani Som
-		'TJS' => [ 'symbol' => 'SM', 'decimals' => 2 ],       // Tajikistani Somoni
-		'TMT' => [ 'symbol' => 'T', 'decimals' => 2 ],        // Turkmenistani Manat
+		'RUB' => [ 'symbol' => '₽', 'decimals' => 2, 'locale' => 'ru_RU' ],
+		'KZT' => [ 'symbol' => '₸', 'decimals' => 2, 'locale' => 'kk_KZ' ],
+		'UZS' => [ 'symbol' => 'лв', 'decimals' => 2, 'locale' => 'uz_UZ' ],
+		'AZN' => [ 'symbol' => '₼', 'decimals' => 2, 'locale' => 'az_AZ' ],
+		'AMD' => [ 'symbol' => '֏', 'decimals' => 2, 'locale' => 'hy_AM' ],
+		'KGS' => [ 'symbol' => 'лв', 'decimals' => 2, 'locale' => 'ky_KG' ],
+		'TJS' => [ 'symbol' => 'SM', 'decimals' => 2, 'locale' => 'tg_TJ' ],
+		'TMT' => [ 'symbol' => 'T', 'decimals' => 2, 'locale' => 'tk_TM' ],
 
 		// Other
-		'AFN' => [ 'symbol' => '؋', 'decimals' => 2 ],        // Afghan Afghani
-		'XPF' => [ 'symbol' => '₣', 'decimals' => 0 ],        // CFP Franc - ZERO DECIMAL
-		'CVE' => [ 'symbol' => '$', 'decimals' => 2 ],        // Cape Verdean Escudo
-		'GIP' => [ 'symbol' => '£', 'decimals' => 2 ],        // Gibraltar Pound
-		'GMD' => [ 'symbol' => 'D', 'decimals' => 2 ],        // Gambian Dalasi
-		'GYD' => [ 'symbol' => '$', 'decimals' => 2 ],        // Guyanese Dollar
-		'LRD' => [ 'symbol' => '$', 'decimals' => 2 ],        // Liberian Dollar
-		'SLL' => [ 'symbol' => 'Le', 'decimals' => 2 ],       // Sierra Leonean Leone
-		'SOS' => [ 'symbol' => 'S', 'decimals' => 2 ],        // Somali Shilling
-		'SRD' => [ 'symbol' => '$', 'decimals' => 2 ],        // Surinamese Dollar
-		'STD' => [ 'symbol' => 'Db', 'decimals' => 2 ],       // São Tomé and Príncipe Dobra
+		'AFN' => [ 'symbol' => '؋', 'decimals' => 2, 'locale' => 'fa_AF' ],
+		'XPF' => [ 'symbol' => '₣', 'decimals' => 0, 'locale' => 'fr_PF' ],
+		'CVE' => [ 'symbol' => '$', 'decimals' => 2, 'locale' => 'pt_CV' ],
+		'GIP' => [ 'symbol' => '£', 'decimals' => 2, 'locale' => 'en_GI' ],
+		'GMD' => [ 'symbol' => 'D', 'decimals' => 2, 'locale' => 'en_GM' ],
+		'GYD' => [ 'symbol' => '$', 'decimals' => 2, 'locale' => 'en_GY' ],
+		'LRD' => [ 'symbol' => '$', 'decimals' => 2, 'locale' => 'en_LR' ],
+		'SLL' => [ 'symbol' => 'Le', 'decimals' => 2, 'locale' => 'en_SL' ],
+		'SOS' => [ 'symbol' => 'S', 'decimals' => 2, 'locale' => 'so_SO' ],
+		'SRD' => [ 'symbol' => '$', 'decimals' => 2, 'locale' => 'nl_SR' ],
+		'STD' => [ 'symbol' => 'Db', 'decimals' => 2, 'locale' => 'pt_ST' ],
 	];
 
+	/* ========================================================================
+	 * FORMATTING
+	 * ======================================================================== */
+
 	/**
-	 * Format amount for display
+	 * Format amount for display with currency symbol.
 	 *
-	 * @param int    $amount   Amount in smallest unit (cents, pence, etc)
-	 * @param string $currency Currency code (3-letter ISO)
+	 * Uses a simple symbol-prefix format suitable for admin contexts.
+	 * For customer-facing locale-aware formatting, use format_localized().
 	 *
-	 * @return string Formatted amount with symbol
-	 * @since 1.0.0
+	 * @param int    $amount   Amount in smallest unit (cents, pence, etc).
+	 * @param string $currency Currency code (3-letter ISO).
 	 *
+	 * @return string Formatted amount with symbol.
 	 */
 	public static function format( int $amount, string $currency ): string {
 		$currency = strtoupper( $currency );
@@ -215,7 +220,6 @@ class Currency {
 		$is_negative = $amount < 0;
 		$abs_amount  = abs( $amount );
 
-		// Convert from the smallest unit
 		if ( $config['decimals'] === 0 ) {
 			$formatted = number_format( $abs_amount );
 		} else {
@@ -223,19 +227,52 @@ class Currency {
 			$formatted = number_format( $abs_amount / $divisor, $config['decimals'] );
 		}
 
-		// Apply negative sign before symbol
 		return ( $is_negative ? '-' : '' ) . $config['symbol'] . $formatted;
 	}
 
 	/**
-	 * Format amount without symbol
+	 * Format amount using locale-aware formatting.
 	 *
-	 * @param int    $amount   Amount in the smallest unit
-	 * @param string $currency Currency code
+	 * Handles symbol position, decimal/thousands separators, and spacing
+	 * according to the currency's locale conventions. Suitable for
+	 * customer-facing storefront display.
 	 *
-	 * @return string Formatted amount without symbol
-	 * @since 1.0.0
+	 * Requires the PHP intl extension. Falls back to format() if unavailable.
 	 *
+	 * @param int    $amount   Amount in smallest unit (cents, pence, etc).
+	 * @param string $currency Currency code (3-letter ISO).
+	 * @param string $locale   Optional locale override (e.g., 'de_DE').
+	 *
+	 * @return string Locale-formatted amount with symbol.
+	 */
+	public static function format_localized( int $amount, string $currency, string $locale = '' ): string {
+		$currency = strtoupper( $currency );
+		$config   = self::get_config( $currency );
+
+		if ( ! $config || ! class_exists( 'NumberFormatter' ) ) {
+			return self::format( $amount, $currency );
+		}
+
+		if ( empty( $locale ) ) {
+			$locale = $config['locale'] ?? 'en_US';
+		}
+
+		$decimals = $config['decimals'];
+		$decimal  = $decimals > 0 ? $amount / pow( 10, $decimals ) : $amount;
+
+		$formatter = new \NumberFormatter( $locale, \NumberFormatter::CURRENCY );
+		$result    = $formatter->formatCurrency( (float) $decimal, $currency );
+
+		return $result !== false ? $result : self::format( $amount, $currency );
+	}
+
+	/**
+	 * Format amount without currency symbol.
+	 *
+	 * @param int    $amount   Amount in the smallest unit.
+	 * @param string $currency Currency code.
+	 *
+	 * @return string Formatted amount without symbol.
 	 */
 	public static function format_plain( int $amount, string $currency ): string {
 		$currency = strtoupper( $currency );
@@ -255,173 +292,26 @@ class Currency {
 	}
 
 	/**
-	 * Format with currency code instead of symbol
+	 * Format with currency code instead of symbol.
 	 *
-	 * @param int    $amount   Amount in the smallest unit
-	 * @param string $currency Currency code
+	 * @param int    $amount   Amount in the smallest unit.
+	 * @param string $currency Currency code.
 	 *
-	 * @return string Amount with currency code (e.g., "99.99 USD")
-	 * @since 1.0.0
-	 *
+	 * @return string Amount with currency code (e.g., "99.99 USD").
 	 */
 	public static function format_with_code( int $amount, string $currency ): string {
 		return self::format_plain( $amount, $currency ) . ' ' . strtoupper( $currency );
 	}
 
 	/**
-	 * Convert decimal amount to the smallest unit for Stripe
+	 * Format a price with recurring interval information.
 	 *
-	 * @param float  $amount   Decimal amount (e.g., 19.99)
-	 * @param string $currency Currency code
+	 * @param int         $amount         Amount in the smallest unit (cents).
+	 * @param string      $currency       Currency code.
+	 * @param string|null $interval       Recurring interval (day/week/month/year).
+	 * @param int         $interval_count Number of intervals (default 1).
 	 *
-	 * @return int Amount in the smallest unit
-	 * @since 1.0.0
-	 *
-	 */
-	public static function to_smallest_unit( float $amount, string $currency ): int {
-		$config   = self::get_config( $currency );
-		$decimals = $config['decimals'] ?? 2;
-
-		$multiplier = pow( 10, $decimals );
-
-		return (int) round( $amount * $multiplier );
-	}
-
-	/**
-	 * Convert from the smallest unit to decimal amount
-	 *
-	 * @param int    $amount   Amount in the smallest unit
-	 * @param string $currency Currency code
-	 *
-	 * @return float Decimal amount
-	 * @since 1.0.0
-	 *
-	 */
-	public static function from_smallest_unit( int $amount, string $currency ): float {
-		$config   = self::get_config( $currency );
-		$decimals = $config['decimals'] ?? 2;
-
-		if ( $decimals === 0 ) {
-			return (float) $amount;
-		}
-
-		$divisor = pow( 10, $decimals );
-
-		return $amount / $divisor;
-	}
-
-	/**
-	 * Get currency configuration
-	 *
-	 * @param string $currency Currency code
-	 *
-	 * @return array|null Configuration array or null
-	 * @since 1.0.0
-	 *
-	 */
-	public static function get_config( string $currency ): ?array {
-		return self::CURRENCIES[ strtoupper( $currency ) ] ?? null;
-	}
-
-	/**
-	 * Get currency symbol
-	 *
-	 * @param string $currency Currency code
-	 *
-	 * @return string Symbol or currency code if not found
-	 * @since 1.0.0
-	 *
-	 */
-	public static function get_symbol( string $currency ): string {
-		$config = self::get_config( $currency );
-
-		return $config['symbol'] ?? strtoupper( $currency );
-	}
-
-	/**
-	 * Get decimal places for currency
-	 *
-	 * @param string $currency Currency code
-	 *
-	 * @return int Number of decimal places
-	 * @since 1.0.0
-	 *
-	 */
-	public static function get_decimals( string $currency ): int {
-		$config = self::get_config( $currency );
-
-		return $config['decimals'] ?? 2;
-	}
-
-	/**
-	 * Check if currency is supported
-	 *
-	 * @param string $currency Currency code
-	 *
-	 * @return bool True if supported
-	 * @since 1.0.0
-	 *
-	 */
-	public static function is_supported( string $currency ): bool {
-		return isset( self::CURRENCIES[ strtoupper( $currency ) ] );
-	}
-
-	/**
-	 * Check if currency is zero-decimal
-	 *
-	 * @param string $currency Currency code
-	 *
-	 * @return bool True if zero-decimal currency
-	 * @since 1.0.0
-	 *
-	 */
-	public static function is_zero_decimal( string $currency ): bool {
-		$config = self::get_config( $currency );
-
-		return $config && $config['decimals'] === 0;
-	}
-
-	/**
-	 * Get all supported currencies
-	 *
-	 * @return array All currency configurations
-	 * @since 1.0.0
-	 *
-	 */
-	public static function get_all(): array {
-		return self::CURRENCIES;
-	}
-
-	/**
-	 * Get currencies for select options
-	 *
-	 * @return array Gutenberg-compatible options array
-	 * @since 1.0.0
-	 *
-	 */
-	public static function get_options(): array {
-		$options = [];
-
-		foreach ( self::CURRENCIES as $code => $config ) {
-			$options[] = [
-				'value' => $code,
-				'label' => sprintf( '%s - %s', $code, $config['symbol'] ),
-			];
-		}
-
-		return $options;
-	}
-
-	/**
-	 * Format a price with recurring interval information
-	 *
-	 * @param int         $amount         Amount in the smallest unit (cents)
-	 * @param string      $currency       Currency code
-	 * @param string|null $interval       Recurring interval (day/week/month/year)
-	 * @param int         $interval_count Number of intervals (default 1)
-	 *
-	 * @return string Formatted price with interval (e.g., "$99.00 per month")
-	 * @since 1.0.0
+	 * @return string Formatted price with interval (e.g., "$99.00 per month").
 	 */
 	public static function format_with_interval( int $amount, string $currency, ?string $interval = null, int $interval_count = 1 ): string {
 		$formatted_price = self::format( $amount, $currency );
@@ -436,13 +326,35 @@ class Currency {
 	}
 
 	/**
-	 * Get human-readable interval text
+	 * Format a price with recurring interval using locale-aware formatting.
 	 *
-	 * @param string $interval       Interval type (day/week/month/year)
-	 * @param int    $interval_count Number of intervals
+	 * @param int         $amount         Amount in the smallest unit (cents).
+	 * @param string      $currency       Currency code.
+	 * @param string|null $interval       Recurring interval (day/week/month/year).
+	 * @param int         $interval_count Number of intervals (default 1).
+	 * @param string      $locale         Optional locale override.
 	 *
-	 * @return string Formatted interval text (e.g., "per month", "every 3 months")
-	 * @since 1.0.0
+	 * @return string Locale-formatted price with interval.
+	 */
+	public static function format_localized_with_interval( int $amount, string $currency, ?string $interval = null, int $interval_count = 1, string $locale = '' ): string {
+		$formatted_price = self::format_localized( $amount, $currency, $locale );
+
+		if ( empty( $interval ) ) {
+			return $formatted_price;
+		}
+
+		$interval_text = self::get_interval_text( $interval, $interval_count );
+
+		return $formatted_price . ' ' . $interval_text;
+	}
+
+	/**
+	 * Get human-readable interval text.
+	 *
+	 * @param string $interval       Interval type (day/week/month/year).
+	 * @param int    $interval_count Number of intervals.
+	 *
+	 * @return string Formatted interval text (e.g., "per month", "every 3 months").
 	 */
 	public static function get_interval_text( string $interval, int $interval_count = 1 ): string {
 		if ( $interval_count === 1 ) {
@@ -472,8 +384,141 @@ class Currency {
 		return '';
 	}
 
+	/* ========================================================================
+	 * UNIT CONVERSION
+	 * ======================================================================== */
+
 	/**
-	 * Resolve currency code from an item object
+	 * Convert decimal amount to the smallest unit for Stripe.
+	 *
+	 * @param float  $amount   Decimal amount (e.g., 19.99).
+	 * @param string $currency Currency code.
+	 *
+	 * @return int Amount in the smallest unit.
+	 */
+	public static function to_smallest_unit( float $amount, string $currency ): int {
+		$config   = self::get_config( $currency );
+		$decimals = $config['decimals'] ?? 2;
+
+		$multiplier = pow( 10, $decimals );
+
+		return (int) round( $amount * $multiplier );
+	}
+
+	/**
+	 * Convert from the smallest unit to decimal amount.
+	 *
+	 * @param int    $amount   Amount in the smallest unit.
+	 * @param string $currency Currency code.
+	 *
+	 * @return float Decimal amount.
+	 */
+	public static function from_smallest_unit( int $amount, string $currency ): float {
+		$config   = self::get_config( $currency );
+		$decimals = $config['decimals'] ?? 2;
+
+		if ( $decimals === 0 ) {
+			return (float) $amount;
+		}
+
+		$divisor = pow( 10, $decimals );
+
+		return $amount / $divisor;
+	}
+
+	/* ========================================================================
+	 * CURRENCY DATA
+	 * ======================================================================== */
+
+	/**
+	 * Get all supported currencies.
+	 *
+	 * @return array All currency configurations.
+	 */
+	public static function all(): array {
+		return self::CURRENCIES;
+	}
+
+	/**
+	 * Get currency configuration.
+	 *
+	 * @param string $currency Currency code.
+	 *
+	 * @return array|null Configuration array or null.
+	 */
+	public static function get_config( string $currency ): ?array {
+		return self::CURRENCIES[ strtoupper( $currency ) ] ?? null;
+	}
+
+	/**
+	 * Get currency symbol.
+	 *
+	 * @param string $currency Currency code.
+	 *
+	 * @return string Symbol or currency code if not found.
+	 */
+	public static function get_symbol( string $currency ): string {
+		$config = self::get_config( $currency );
+
+		return $config['symbol'] ?? strtoupper( $currency );
+	}
+
+	/**
+	 * Get decimal places for currency.
+	 *
+	 * @param string $currency Currency code.
+	 *
+	 * @return int Number of decimal places.
+	 */
+	public static function get_decimals( string $currency ): int {
+		$config = self::get_config( $currency );
+
+		return $config['decimals'] ?? 2;
+	}
+
+	/**
+	 * Get locale for currency.
+	 *
+	 * @param string $currency Currency code.
+	 *
+	 * @return string Locale string (e.g., 'en_US').
+	 */
+	public static function get_locale( string $currency ): string {
+		$config = self::get_config( $currency );
+
+		return $config['locale'] ?? 'en_US';
+	}
+
+	/**
+	 * Check if currency is supported.
+	 *
+	 * @param string $currency Currency code.
+	 *
+	 * @return bool True if supported.
+	 */
+	public static function is_supported( string $currency ): bool {
+		return isset( self::CURRENCIES[ strtoupper( $currency ) ] );
+	}
+
+	/**
+	 * Check if currency is zero-decimal.
+	 *
+	 * @param string $currency Currency code.
+	 *
+	 * @return bool True if zero-decimal currency.
+	 */
+	public static function is_zero_decimal( string $currency ): bool {
+		$config = self::get_config( $currency );
+
+		return $config && $config['decimals'] === 0;
+	}
+
+	/* ========================================================================
+	 * OBJECT RESOLUTION
+	 * ======================================================================== */
+
+	/**
+	 * Resolve currency code from an item object.
 	 *
 	 * Checks for a get_currency() method, a currency property, or falls back
 	 * to the provided default.
@@ -499,7 +544,7 @@ class Currency {
 	}
 
 	/**
-	 * Resolve recurring interval from an item object
+	 * Resolve recurring interval from an item object.
 	 *
 	 * Checks for interval-related methods or properties on the item.
 	 *
@@ -531,8 +576,12 @@ class Currency {
 		];
 	}
 
+	/* ========================================================================
+	 * RENDERING
+	 * ======================================================================== */
+
 	/**
-	 * Render a price amount as formatted HTML with optional recurring interval
+	 * Render a price amount as formatted HTML with optional recurring interval.
 	 *
 	 * Converts an amount in the smallest currency unit to a formatted string.
 	 * Currency and interval are resolved from the item object when not explicitly
