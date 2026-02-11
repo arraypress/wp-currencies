@@ -34,6 +34,25 @@ if ( ! function_exists( 'format_currency' ) ) {
 	}
 }
 
+if ( ! function_exists( 'esc_currency_e' ) ) {
+	/**
+	 * Echo an escaped, formatted currency amount.
+	 *
+	 * Convenience wrapper that formats a currency amount and outputs it
+	 * with proper HTML escaping. Equivalent to:
+	 *   echo esc_html( format_currency( $amount, $currency ) );
+	 *
+	 * @param mixed  $amount   Amount in the smallest unit (cents).
+	 * @param string $currency Currency code (e.g., 'USD', 'GBP').
+	 *
+	 * @return void
+	 * @since 1.1.0
+	 */
+	function esc_currency_e( $amount, string $currency ): void {
+		echo esc_html( format_currency( (int) $amount, $currency ) );
+	}
+}
+
 if ( ! function_exists( 'format_currency_localized' ) ) {
 	/**
 	 * Format currency amount with locale-aware formatting.
