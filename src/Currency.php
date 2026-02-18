@@ -27,15 +27,16 @@ defined( 'ABSPATH' ) || exit;
 class Currency {
 
 	/**
-	 * Stripe supported currencies with configuration
+	 * Stripe supported currencies with configuration.
 	 *
-	 * Complete list as of 2025 - 135 currencies
+	 * Complete list as of 2025 - 135 currencies.
+	 *
 	 * @link  https://stripe.com/docs/currencies
-	 *
 	 * @since 1.0.0
 	 * @var array
 	 */
 	private const CURRENCIES = [
+
 		// Major Currencies
 		'USD' => [ 'symbol' => '$', 'decimals' => 2, 'locale' => 'en_US' ],
 		'EUR' => [ 'symbol' => '€', 'decimals' => 2, 'locale' => 'de_DE' ],
@@ -194,9 +195,9 @@ class Currency {
 		'STD' => [ 'symbol' => 'Db', 'decimals' => 2, 'locale' => 'pt_ST' ],
 	];
 
-	/* ========================================================================
-	 * FORMATTING
-	 * ======================================================================== */
+	/** =========================================================================
+	 *  Formatting
+	 *  ======================================================================== */
 
 	/**
 	 * Format amount for display with currency symbol.
@@ -208,6 +209,8 @@ class Currency {
 	 * @param string $currency Currency code (3-letter ISO).
 	 *
 	 * @return string Formatted amount with symbol.
+	 * @since 1.0.0
+	 *
 	 */
 	public static function format( int $amount, string $currency ): string {
 		$currency = strtoupper( $currency );
@@ -244,6 +247,8 @@ class Currency {
 	 * @param string $locale   Optional locale override (e.g., 'de_DE').
 	 *
 	 * @return string Locale-formatted amount with symbol.
+	 * @since 1.0.0
+	 *
 	 */
 	public static function format_localized( int $amount, string $currency, string $locale = '' ): string {
 		$currency = strtoupper( $currency );
@@ -269,10 +274,12 @@ class Currency {
 	/**
 	 * Format amount without currency symbol.
 	 *
-	 * @param int    $amount   Amount in the smallest unit.
+	 * @param int    $amount   Amount in smallest unit.
 	 * @param string $currency Currency code.
 	 *
 	 * @return string Formatted amount without symbol.
+	 * @since 1.0.0
+	 *
 	 */
 	public static function format_plain( int $amount, string $currency ): string {
 		$currency = strtoupper( $currency );
@@ -294,99 +301,40 @@ class Currency {
 	/**
 	 * Format with currency code instead of symbol.
 	 *
-	 * @param int    $amount   Amount in the smallest unit.
+	 * @param int    $amount   Amount in smallest unit.
 	 * @param string $currency Currency code.
 	 *
 	 * @return string Amount with currency code (e.g., "99.99 USD").
+	 * @since 1.0.0
+	 *
 	 */
 	public static function format_with_code( int $amount, string $currency ): string {
 		return self::format_plain( $amount, $currency ) . ' ' . strtoupper( $currency );
 	}
 
 	/**
-	 * Format a price with recurring interval information.
+	 * Render a formatted price as HTML.
 	 *
-	 * @param int         $amount         Amount in the smallest unit (cents).
-	 * @param string      $currency       Currency code.
-	 * @param string|null $interval       Recurring interval (day/week/month/year).
-	 * @param int         $interval_count Number of intervals (default 1).
+	 * Wraps the formatted amount in a span for use in admin tables,
+	 * order screens, or any context that needs inline HTML output.
 	 *
-	 * @return string Formatted price with interval (e.g., "$99.00 per month").
+	 * @param int    $amount   Amount in smallest unit (e.g., cents).
+	 * @param string $currency Currency code.
+	 *
+	 * @return string HTML span with formatted price.
+	 * @since 1.0.0
+	 *
 	 */
-	public static function format_with_interval( int $amount, string $currency, ?string $interval = null, int $interval_count = 1 ): string {
-		$formatted_price = self::format( $amount, $currency );
-
-		if ( empty( $interval ) ) {
-			return $formatted_price;
-		}
-
-		$interval_text = self::get_interval_text( $interval, $interval_count );
-
-		return $formatted_price . ' ' . $interval_text;
+	public static function render( int $amount, string $currency ): string {
+		return sprintf(
+			'<span class="price">%s</span>',
+			esc_html( self::format( $amount, $currency ) )
+		);
 	}
 
-	/**
-	 * Format a price with recurring interval using locale-aware formatting.
-	 *
-	 * @param int         $amount         Amount in the smallest unit (cents).
-	 * @param string      $currency       Currency code.
-	 * @param string|null $interval       Recurring interval (day/week/month/year).
-	 * @param int         $interval_count Number of intervals (default 1).
-	 * @param string      $locale         Optional locale override.
-	 *
-	 * @return string Locale-formatted price with interval.
-	 */
-	public static function format_localized_with_interval( int $amount, string $currency, ?string $interval = null, int $interval_count = 1, string $locale = '' ): string {
-		$formatted_price = self::format_localized( $amount, $currency, $locale );
-
-		if ( empty( $interval ) ) {
-			return $formatted_price;
-		}
-
-		$interval_text = self::get_interval_text( $interval, $interval_count );
-
-		return $formatted_price . ' ' . $interval_text;
-	}
-
-	/**
-	 * Get human-readable interval text.
-	 *
-	 * @param string $interval       Interval type (day/week/month/year).
-	 * @param int    $interval_count Number of intervals.
-	 *
-	 * @return string Formatted interval text (e.g., "per month", "every 3 months").
-	 */
-	public static function get_interval_text( string $interval, int $interval_count = 1 ): string {
-		if ( $interval_count === 1 ) {
-			switch ( $interval ) {
-				case 'day':
-					return _x( 'per day', 'recurring interval', 'arraypress' );
-				case 'week':
-					return _x( 'per week', 'recurring interval', 'arraypress' );
-				case 'month':
-					return _x( 'per month', 'recurring interval', 'arraypress' );
-				case 'year':
-					return _x( 'per year', 'recurring interval', 'arraypress' );
-			}
-		} else {
-			switch ( $interval ) {
-				case 'day':
-					return sprintf( _n( 'every %d day', 'every %d days', $interval_count, 'arraypress' ), $interval_count );
-				case 'week':
-					return sprintf( _n( 'every %d week', 'every %d weeks', $interval_count, 'arraypress' ), $interval_count );
-				case 'month':
-					return sprintf( _n( 'every %d month', 'every %d months', $interval_count, 'arraypress' ), $interval_count );
-				case 'year':
-					return sprintf( _n( 'every %d year', 'every %d years', $interval_count, 'arraypress' ), $interval_count );
-			}
-		}
-
-		return '';
-	}
-
-	/* ========================================================================
-	 * UNIT CONVERSION
-	 * ======================================================================== */
+	/** =========================================================================
+	 *  Unit Conversion
+	 *  ======================================================================== */
 
 	/**
 	 * Convert decimal amount to the smallest unit for Stripe.
@@ -395,14 +343,14 @@ class Currency {
 	 * @param string $currency Currency code.
 	 *
 	 * @return int Amount in the smallest unit.
+	 * @since 1.0.0
+	 *
 	 */
 	public static function to_smallest_unit( float $amount, string $currency ): int {
 		$config   = self::get_config( $currency );
 		$decimals = $config['decimals'] ?? 2;
 
-		$multiplier = pow( 10, $decimals );
-
-		return (int) round( $amount * $multiplier );
+		return (int) round( $amount * pow( 10, $decimals ) );
 	}
 
 	/**
@@ -412,6 +360,8 @@ class Currency {
 	 * @param string $currency Currency code.
 	 *
 	 * @return float Decimal amount.
+	 * @since 1.0.0
+	 *
 	 */
 	public static function from_smallest_unit( int $amount, string $currency ): float {
 		$config   = self::get_config( $currency );
@@ -421,19 +371,19 @@ class Currency {
 			return (float) $amount;
 		}
 
-		$divisor = pow( 10, $decimals );
-
-		return $amount / $divisor;
+		return $amount / pow( 10, $decimals );
 	}
 
-	/* ========================================================================
-	 * CURRENCY DATA
-	 * ======================================================================== */
+	/** =========================================================================
+	 *  Currency Data
+	 *  ======================================================================== */
 
 	/**
 	 * Get all supported currencies.
 	 *
 	 * @return array All currency configurations.
+	 * @since 1.0.0
+	 *
 	 */
 	public static function all(): array {
 		return self::CURRENCIES;
@@ -444,7 +394,9 @@ class Currency {
 	 *
 	 * @param string $currency Currency code.
 	 *
-	 * @return array|null Configuration array or null.
+	 * @return array|null Configuration array or null if unsupported.
+	 * @since 1.0.0
+	 *
 	 */
 	public static function get_config( string $currency ): ?array {
 		return self::CURRENCIES[ strtoupper( $currency ) ] ?? null;
@@ -456,6 +408,8 @@ class Currency {
 	 * @param string $currency Currency code.
 	 *
 	 * @return string Symbol or currency code if not found.
+	 * @since 1.0.0
+	 *
 	 */
 	public static function get_symbol( string $currency ): string {
 		$config = self::get_config( $currency );
@@ -469,6 +423,8 @@ class Currency {
 	 * @param string $currency Currency code.
 	 *
 	 * @return int Number of decimal places.
+	 * @since 1.0.0
+	 *
 	 */
 	public static function get_decimals( string $currency ): int {
 		$config = self::get_config( $currency );
@@ -482,6 +438,8 @@ class Currency {
 	 * @param string $currency Currency code.
 	 *
 	 * @return string Locale string (e.g., 'en_US').
+	 * @since 1.0.0
+	 *
 	 */
 	public static function get_locale( string $currency ): string {
 		$config = self::get_config( $currency );
@@ -489,12 +447,18 @@ class Currency {
 		return $config['locale'] ?? 'en_US';
 	}
 
+	/** =========================================================================
+	 *  Validation
+	 *  ======================================================================== */
+
 	/**
 	 * Check if currency is supported.
 	 *
 	 * @param string $currency Currency code.
 	 *
 	 * @return bool True if supported.
+	 * @since 1.0.0
+	 *
 	 */
 	public static function is_supported( string $currency ): bool {
 		return isset( self::CURRENCIES[ strtoupper( $currency ) ] );
@@ -503,125 +467,19 @@ class Currency {
 	/**
 	 * Check if currency is zero-decimal.
 	 *
+	 * Zero-decimal currencies (e.g. JPY, KRW) are stored and sent to
+	 * Stripe as whole numbers without any multiplication.
+	 *
 	 * @param string $currency Currency code.
 	 *
 	 * @return bool True if zero-decimal currency.
+	 * @since 1.0.0
+	 *
 	 */
 	public static function is_zero_decimal( string $currency ): bool {
 		$config = self::get_config( $currency );
 
 		return $config && $config['decimals'] === 0;
-	}
-
-	/* ========================================================================
-	 * OBJECT RESOLUTION
-	 * ======================================================================== */
-
-	/**
-	 * Resolve currency code from an item object.
-	 *
-	 * Checks for a get_currency() method, a currency property, or falls back
-	 * to the provided default.
-	 *
-	 * @param object|null $item    Data object to check for currency.
-	 * @param string      $default Default currency code if not found.
-	 *
-	 * @return string Currency code (uppercase).
-	 */
-	public static function resolve( $item, string $default = 'USD' ): string {
-		if ( $item && method_exists( $item, 'get_currency' ) ) {
-			$currency = $item->get_currency();
-			if ( ! empty( $currency ) ) {
-				return strtoupper( $currency );
-			}
-		}
-
-		if ( is_object( $item ) && property_exists( $item, 'currency' ) && ! empty( $item->currency ) ) {
-			return strtoupper( $item->currency );
-		}
-
-		return strtoupper( $default );
-	}
-
-	/**
-	 * Resolve recurring interval from an item object.
-	 *
-	 * Checks for interval-related methods or properties on the item.
-	 *
-	 * @param object|null $item Data object to check for interval.
-	 *
-	 * @return array{interval: string|null, interval_count: int}
-	 */
-	public static function resolve_interval( $item ): array {
-		$interval       = null;
-		$interval_count = 1;
-
-		if ( $item && method_exists( $item, 'get_recurring_interval' ) ) {
-			$interval = $item->get_recurring_interval() ?: null;
-		} elseif ( is_object( $item ) && property_exists( $item, 'recurring_interval' ) ) {
-			$interval = $item->recurring_interval ?: null;
-		}
-
-		if ( $interval ) {
-			if ( $item && method_exists( $item, 'get_recurring_interval_count' ) ) {
-				$interval_count = (int) ( $item->get_recurring_interval_count() ?: 1 );
-			} elseif ( is_object( $item ) && property_exists( $item, 'recurring_interval_count' ) ) {
-				$interval_count = (int) ( $item->recurring_interval_count ?: 1 );
-			}
-		}
-
-		return [
-			'interval'       => $interval,
-			'interval_count' => $interval_count,
-		];
-	}
-
-	/* ========================================================================
-	 * RENDERING
-	 * ======================================================================== */
-
-	/**
-	 * Render a price amount as formatted HTML with optional recurring interval.
-	 *
-	 * Converts an amount in the smallest currency unit to a formatted string.
-	 * Currency and interval are resolved from the item object when not explicitly
-	 * provided. One-time prices show the amount only. Recurring prices append
-	 * the interval (e.g., "per month").
-	 *
-	 * @param mixed       $value          Amount in smallest unit (e.g., cents).
-	 * @param object|null $item           Data object (checked for currency, interval properties).
-	 * @param string      $currency       Optional currency code override.
-	 * @param string|null $interval       Optional interval override.
-	 * @param int|null    $interval_count Optional interval count override.
-	 *
-	 * @return string|null HTML string or null if value is not numeric.
-	 */
-	public static function render( $value, $item = null, string $currency = '', ?string $interval = null, ?int $interval_count = null ): ?string {
-		if ( ! is_numeric( $value ) ) {
-			return null;
-		}
-
-		if ( empty( $currency ) ) {
-			$currency = self::resolve( $item );
-		}
-
-		if ( $interval === null && $interval_count === null ) {
-			$resolved       = self::resolve_interval( $item );
-			$interval       = $resolved['interval'];
-			$interval_count = $resolved['interval_count'];
-		}
-
-		$formatted = self::format_with_interval(
-			intval( $value ),
-			$currency,
-			$interval,
-			$interval_count ?? 1
-		);
-
-		return sprintf(
-			'<span class="price">%s</span>',
-			esc_html( $formatted )
-		);
 	}
 
 }

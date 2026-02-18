@@ -15,22 +15,41 @@ use ArrayPress\Currencies\Currency;
 
 if ( ! function_exists( 'format_currency' ) ) {
 	/**
-	 * Format currency amount for display.
+	 * Format a currency amount with symbol.
 	 *
-	 * @param mixed  $amount   Amount in the smallest unit (cents).
-	 * @param string $currency Currency code.
-	 * @param bool   $plain    Without symbol (default: false).
+	 * Pass a locale string to use locale-aware formatting suitable for storefront
+	 * display. Omit locale for simple symbol-prefix formatting suited to admin contexts.
+	 * Locale-aware formatting requires the PHP intl extension and falls back to
+	 * simple formatting if unavailable.
 	 *
-	 * @return string Formatted currency.
+	 * @param int    $amount   Amount in the smallest unit (cents, pence, etc).
+	 * @param string $currency Currency code (e.g., 'USD', 'GBP').
+	 * @param string $locale   Optional locale override (e.g., 'de_DE').
+	 *
+	 * @return string Formatted amount with symbol (e.g., "$19.99").
+	 * @since 1.0.0
 	 */
-	function format_currency( $amount, string $currency, bool $plain = false ): string {
-		$amount = (int) $amount;
-
-		if ( $plain ) {
-			return Currency::format_plain( $amount, $currency );
+	function format_currency( int $amount, string $currency, string $locale = '' ): string {
+		if ( ! empty( $locale ) ) {
+			return Currency::format_localized( $amount, $currency, $locale );
 		}
 
 		return Currency::format( $amount, $currency );
+	}
+}
+
+if ( ! function_exists( 'format_currency_plain' ) ) {
+	/**
+	 * Format a currency amount without symbol.
+	 *
+	 * @param int    $amount   Amount in the smallest unit (cents, pence, etc).
+	 * @param string $currency Currency code (e.g., 'USD', 'GBP').
+	 *
+	 * @return string Formatted amount without symbol (e.g., "19.99").
+	 * @since 1.0.0
+	 */
+	function format_currency_plain( int $amount, string $currency ): string {
+		return Currency::format_plain( $amount, $currency );
 	}
 }
 
@@ -38,103 +57,68 @@ if ( ! function_exists( 'esc_currency_e' ) ) {
 	/**
 	 * Echo an escaped, formatted currency amount.
 	 *
-	 * Convenience wrapper that formats a currency amount and outputs it
-	 * with proper HTML escaping. Equivalent to:
-	 *   echo esc_html( format_currency( $amount, $currency ) );
-	 *
-	 * @param mixed  $amount   Amount in the smallest unit (cents).
+	 * @param int    $amount   Amount in the smallest unit (cents, pence, etc).
 	 * @param string $currency Currency code (e.g., 'USD', 'GBP').
 	 *
 	 * @return void
-	 * @since 1.1.0
+	 * @since 1.0.0
 	 */
-	function esc_currency_e( $amount, string $currency ): void {
-		echo esc_html( format_currency( (int) $amount, $currency ) );
-	}
-}
-
-if ( ! function_exists( 'format_currency_localized' ) ) {
-	/**
-	 * Format currency amount with locale-aware formatting.
-	 *
-	 * Handles symbol position, decimal/thousands separators according
-	 * to the currency's locale conventions. Suitable for storefront display.
-	 *
-	 * @param mixed  $amount   Amount in the smallest unit (cents).
-	 * @param string $currency Currency code.
-	 * @param string $locale   Optional locale override.
-	 *
-	 * @return string Locale-formatted currency.
-	 */
-	function format_currency_localized( $amount, string $currency, string $locale = '' ): string {
-		return Currency::format_localized( (int) $amount, $currency, $locale );
-	}
-}
-
-if ( ! function_exists( 'format_price_interval' ) ) {
-	/**
-	 * Format price with recurring interval.
-	 *
-	 * @param mixed       $amount         Amount in cents.
-	 * @param string      $currency       Currency code.
-	 * @param string|null $interval       Recurring interval.
-	 * @param int         $interval_count Interval count.
-	 *
-	 * @return string Formatted price with interval.
-	 */
-	function format_price_interval( $amount, string $currency, ?string $interval = null, int $interval_count = 1 ): string {
-		return Currency::format_with_interval( (int) $amount, $currency, $interval, $interval_count );
+	function esc_currency_e( int $amount, string $currency ): void {
+		echo esc_html( Currency::format( $amount, $currency ) );
 	}
 }
 
 if ( ! function_exists( 'render_currency' ) ) {
 	/**
-	 * Render a price as formatted HTML with optional recurring interval.
+	 * Render a formatted currency amount as HTML.
 	 *
-	 * @param mixed       $value    Amount in smallest unit (e.g., cents).
-	 * @param object|null $item     Data object (checked for currency, interval properties).
-	 * @param string      $currency Optional currency code override.
+	 * @param int    $amount   Amount in the smallest unit (cents, pence, etc).
+	 * @param string $currency Currency code (e.g., 'USD', 'GBP').
 	 *
-	 * @return string|null HTML string or null if value is not numeric.
+	 * @return string HTML span with formatted amount (e.g., '<span class="price">$19.99</span>').
+	 * @since 1.0.0
 	 */
-	function render_currency( $value, $item = null, string $currency = '' ): ?string {
-		return Currency::render( $value, $item, $currency );
+	function render_currency( int $amount, string $currency ): string {
+		return Currency::render( $amount, $currency );
 	}
 }
 
 if ( ! function_exists( 'to_currency_cents' ) ) {
 	/**
-	 * Convert decimal to smallest unit for Stripe.
+	 * Convert a decimal amount to the smallest unit for Stripe.
 	 *
-	 * @param mixed  $amount   Decimal amount (e.g., 19.99).
-	 * @param string $currency Currency code.
+	 * @param float  $amount   Decimal amount (e.g., 19.99).
+	 * @param string $currency Currency code (e.g., 'USD', 'GBP').
 	 *
-	 * @return int Amount in cents.
+	 * @return int Amount in the smallest unit (e.g., 1999).
+	 * @since 1.0.0
 	 */
-	function to_currency_cents( $amount, string $currency ): int {
-		return Currency::to_smallest_unit( (float) $amount, $currency );
+	function to_currency_cents( float $amount, string $currency ): int {
+		return Currency::to_smallest_unit( $amount, $currency );
 	}
 }
 
 if ( ! function_exists( 'from_currency_cents' ) ) {
 	/**
-	 * Convert from the smallest unit to decimal.
+	 * Convert from the smallest unit to a decimal amount.
 	 *
-	 * @param mixed  $amount   Amount in the smallest unit.
-	 * @param string $currency Currency code.
+	 * @param int    $amount   Amount in the smallest unit (e.g., 1999).
+	 * @param string $currency Currency code (e.g., 'USD', 'GBP').
 	 *
-	 * @return float Decimal amount.
+	 * @return float Decimal amount (e.g., 19.99).
+	 * @since 1.0.0
 	 */
-	function from_currency_cents( $amount, string $currency ): float {
-		return Currency::from_smallest_unit( (int) $amount, $currency );
+	function from_currency_cents( int $amount, string $currency ): float {
+		return Currency::from_smallest_unit( $amount, $currency );
 	}
 }
 
 if ( ! function_exists( 'get_currency_options' ) ) {
 	/**
-	 * Get all supported currencies as code => config pairs.
+	 * Get all supported currencies as an array of configurations.
 	 *
-	 * @return array Array of currency configurations.
+	 * @return array Currency configurations keyed by currency code.
+	 * @since 1.0.0
 	 */
 	function get_currency_options(): array {
 		return Currency::all();
