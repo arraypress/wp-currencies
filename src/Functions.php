@@ -13,6 +13,68 @@ defined( 'ABSPATH' ) || exit;
 
 use ArrayPress\Currencies\Currency;
 
+/** =========================================================================
+ *  Currency Data
+ *  ======================================================================== */
+
+if ( ! function_exists( 'get_currency_options' ) ) {
+	/**
+	 * Get currencies formatted as select options.
+	 *
+	 * @return array<string, string> Options keyed by currency code (e.g., 'USD' => 'USD — US Dollar').
+	 * @since 1.0.0
+	 */
+	function get_currency_options(): array {
+		return Currency::get_options();
+	}
+}
+
+if ( ! function_exists( 'get_currency_name' ) ) {
+	/**
+	 * Get the display name for a currency.
+	 *
+	 * @param string $currency Currency code (e.g., 'USD', 'GBP').
+	 *
+	 * @return string Currency name (e.g., 'US Dollar') or code if not found.
+	 * @since 1.0.0
+	 */
+	function get_currency_name( string $currency ): string {
+		return Currency::get_name( $currency );
+	}
+}
+
+if ( ! function_exists( 'get_currency_symbol' ) ) {
+	/**
+	 * Get the symbol for a currency.
+	 *
+	 * @param string $currency Currency code (e.g., 'USD', 'GBP').
+	 *
+	 * @return string Currency symbol (e.g., '$', '£') or code if not found.
+	 * @since 1.0.0
+	 */
+	function get_currency_symbol( string $currency ): string {
+		return Currency::get_symbol( $currency );
+	}
+}
+
+if ( ! function_exists( 'get_currency_decimals' ) ) {
+	/**
+	 * Get the number of decimal places for a currency.
+	 *
+	 * @param string $currency Currency code (e.g., 'USD', 'JPY').
+	 *
+	 * @return int Number of decimal places (e.g., 2 for USD, 0 for JPY).
+	 * @since 1.0.0
+	 */
+	function get_currency_decimals( string $currency ): int {
+		return Currency::get_decimals( $currency );
+	}
+}
+
+/** =========================================================================
+ *  Formatting
+ *  ======================================================================== */
+
 if ( ! function_exists( 'format_currency' ) ) {
 	/**
 	 * Format a currency amount with symbol.
@@ -83,6 +145,10 @@ if ( ! function_exists( 'render_currency' ) ) {
 	}
 }
 
+/** =========================================================================
+ *  Unit Conversion
+ *  ======================================================================== */
+
 if ( ! function_exists( 'to_currency_cents' ) ) {
 	/**
 	 * Convert a decimal amount to the smallest unit for Stripe.
@@ -113,14 +179,34 @@ if ( ! function_exists( 'from_currency_cents' ) ) {
 	}
 }
 
-if ( ! function_exists( 'get_currency_options' ) ) {
+/** =========================================================================
+ *  Validation
+ *  ======================================================================== */
+
+if ( ! function_exists( 'is_currency_supported' ) ) {
 	/**
-	 * Get all supported currencies as an array of configurations.
+	 * Check if a currency code is supported.
 	 *
-	 * @return array Currency configurations keyed by currency code.
+	 * @param string $currency Currency code (e.g., 'USD', 'GBP').
+	 *
+	 * @return bool True if supported by Stripe.
 	 * @since 1.0.0
 	 */
-	function get_currency_options(): array {
-		return Currency::all();
+	function is_currency_supported( string $currency ): bool {
+		return Currency::is_supported( $currency );
+	}
+}
+
+if ( ! function_exists( 'is_currency_zero_decimal' ) ) {
+	/**
+	 * Check if a currency is zero-decimal.
+	 *
+	 * @param string $currency Currency code (e.g., 'JPY', 'KRW').
+	 *
+	 * @return bool True if zero-decimal currency.
+	 * @since 1.0.0
+	 */
+	function is_currency_zero_decimal( string $currency ): bool {
+		return Currency::is_zero_decimal( $currency );
 	}
 }

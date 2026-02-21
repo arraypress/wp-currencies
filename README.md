@@ -1,11 +1,11 @@
 # WordPress Currencies
 
-A comprehensive WordPress library for Stripe currency formatting and conversion, supporting all 135 Stripe currencies
+A comprehensive WordPress library for Stripe currency formatting and conversion, supporting all 136 Stripe currencies
 with proper decimal handling and locale-aware formatting.
 
 ## Features
 
-- 💳 **All 135 Stripe Currencies** - Complete support for every Stripe-supported currency
+- 💳 **All 136 Stripe Currencies** - Complete support for every Stripe-supported currency
 - 🔢 **Smart Decimal Handling** - Correctly handles zero-decimal (JPY, KRW) and three-decimal (KWD, OMR) currencies
 - 🌍 **Locale-Aware Formatting** - Customer-facing formatting with correct symbol position, separators, and spacing
 - 💰 **Multiple Format Options** - Format with symbols, codes, or plain numbers
@@ -41,7 +41,7 @@ echo Currency::format_with_code( 9999, 'USD' );  // 99.99 USD
 For customer-facing storefronts where correct symbol position and separators matter:
 
 ```php
-// Uses each currency's default locale
+// Defaults to WordPress site locale (get_locale())
 echo Currency::format_localized( 9999, 'USD' );  // $99.99
 echo Currency::format_localized( 9999, 'EUR' );  // 99,99 €
 echo Currency::format_localized( 9999, 'PLN' );  // 99,99 zł
@@ -83,6 +83,26 @@ $dinars  = Currency::from_smallest_unit( 9999, 'KWD' );  // 9.999
 ## Currency Information
 
 ```php
+// Get currency name
+$name = Currency::get_name( 'USD' );  // US Dollar
+
+// Get currency symbol
+$symbol = Currency::get_symbol( 'GBP' );  // £
+
+// Get decimal places
+$decimals = Currency::get_decimals( 'USD' );  // 2
+
+// Get the native locale for a currency
+$locale = Currency::get_native_locale( 'EUR' );  // de_DE
+
+// Get full configuration
+$config = Currency::get_config( 'EUR' );
+// Returns: ['name' => 'Euro', 'symbol' => '€', 'decimals' => 2, 'locale' => 'de_DE']
+
+// Get currencies formatted for select dropdowns
+$options = Currency::get_options();
+// Returns: ['USD' => 'USD — US Dollar', 'EUR' => 'EUR — Euro', ...]
+
 // Check if currency is supported
 if ( Currency::is_supported( 'USD' ) ) {
     // Valid Stripe currency
@@ -92,15 +112,6 @@ if ( Currency::is_supported( 'USD' ) ) {
 if ( Currency::is_zero_decimal( 'JPY' ) ) {
     // Handle zero-decimal logic
 }
-
-// Get currency configuration
-$config = Currency::get_config( 'EUR' );
-// Returns: ['symbol' => '€', 'decimals' => 2, 'locale' => 'de_DE']
-
-// Get individual properties
-$symbol   = Currency::get_symbol( 'GBP' );    // £
-$decimals = Currency::get_decimals( 'USD' );   // 2
-$locale   = Currency::get_locale( 'EUR' );     // de_DE
 ```
 
 ## Stripe Integration Example
@@ -128,32 +139,39 @@ echo Currency::format_localized( $charge->amount, $currency );
 Global functions are available for convenience:
 
 ```php
-// Format with symbol (pass locale for locale-aware formatting)
-$price = format_currency( 9999, 'USD' );              // $99.99
-$price = format_currency( 9999, 'EUR', 'de_DE' );     // 99,99 €
+// Currency data
+$name     = get_currency_name( 'USD' );              // US Dollar
+$symbol   = get_currency_symbol( 'GBP' );             // £
+$decimals = get_currency_decimals( 'USD' );            // 2
+$options  = get_currency_options();                     // ['USD' => 'USD — US Dollar', ...]
 
-// Format without symbol
-$plain = format_currency_plain( 9999, 'USD' );         // 99.99
+// Formatting
+$price = format_currency( 9999, 'USD' );               // $99.99
+$price = format_currency( 9999, 'EUR', 'de_DE' );      // 99,99 €
+$plain = format_currency_plain( 9999, 'USD' );          // 99.99
+$html  = render_currency( 9999, 'USD' );                // <span class="price">$99.99</span>
+esc_currency_e( 9999, 'USD' );                          // Echoes: $99.99
 
-// Echo escaped output directly
-esc_currency_e( 9999, 'USD' );                         // $99.99
+// Unit conversion
+$cents   = to_currency_cents( 19.99, 'USD' );           // 1999
+$dollars = from_currency_cents( 1999, 'USD' );           // 19.99
 
-// Render as HTML
-$html = render_currency( 9999, 'USD' );
-// <span class="price">$99.99</span>
-
-// Convert between formats
-$cents   = to_currency_cents( 19.99, 'USD' );    // 1999
-$dollars = from_currency_cents( 1999, 'USD' );    // 19.99
-
-// Get all currencies
-$currencies = get_currency_options();
+// Validation
+$supported = is_currency_supported( 'USD' );             // true
+$zero_dec  = is_currency_zero_decimal( 'JPY' );          // true
 ```
 
 ## Zero-Decimal Currencies
 
-These currencies don't use decimal places: BIF, CLP, DJF, GNF, HUF, ISK, JPY, KMF, KRW, MGA, PYG, RWF, TWD, UGX, VND,
-VUV, XAF, XOF, XPF.
+These currencies don't use decimal places: BIF, CLP, DJF, GNF, JPY, KMF, KRW, MGA, PYG, RWF, VND, VUV, XAF, XOF, XPF.
+
+## Special Case Currencies
+
+Some currencies have quirks in Stripe's API that this library handles automatically:
+
+- **ISK, UGX** — Logically zero-decimal but Stripe requires two-decimal representation for backward compatibility.
+  Treated as two-decimal in the API.
+- **HUF, TWD** — Zero-decimal for payouts only; charges accept two-decimal amounts. Treated as two-decimal in the API.
 
 ## Three-Decimal Currencies
 
@@ -161,22 +179,28 @@ These currencies use three decimal places: BHD, JOD, KWD, OMR, TND.
 
 ## API Reference
 
-| Method                                          | Description                | Return   |
-|-------------------------------------------------|----------------------------|----------|
-| `format($amount, $currency)`                    | Format with symbol         | `string` |
-| `format_localized($amount, $currency, $locale)` | Locale-aware format        | `string` |
-| `format_plain($amount, $currency)`              | Format without symbol      | `string` |
-| `format_with_code($amount, $currency)`          | Format with currency code  | `string` |
-| `render($amount, $currency)`                    | Render as HTML span        | `string` |
-| `to_smallest_unit($amount, $currency)`          | Convert to Stripe units    | `int`    |
-| `from_smallest_unit($amount, $currency)`        | Convert from Stripe units  | `float`  |
-| `all()`                                         | Get all currencies         | `array`  |
-| `get_config($currency)`                         | Get currency configuration | `?array` |
-| `get_symbol($currency)`                         | Get currency symbol        | `string` |
-| `get_decimals($currency)`                       | Get decimal places         | `int`    |
-| `get_locale($currency)`                         | Get default locale         | `string` |
-| `is_supported($currency)`                       | Check if supported         | `bool`   |
-| `is_zero_decimal($currency)`                    | Check if zero-decimal      | `bool`   |
+| Method                                          | Description                  | Return   |
+|-------------------------------------------------|------------------------------|----------|
+| **Currency Data**                               |                              |          |
+| `all()`                                         | Get all currencies           | `array`  |
+| `get_config($currency)`                         | Get currency configuration   | `?array` |
+| `get_name($currency)`                           | Get currency name            | `string` |
+| `get_symbol($currency)`                         | Get currency symbol          | `string` |
+| `get_decimals($currency)`                       | Get decimal places           | `int`    |
+| `get_native_locale($currency)`                  | Get native locale            | `string` |
+| `get_options()`                                 | Get formatted select options | `array`  |
+| **Formatting**                                  |                              |          |
+| `format($amount, $currency)`                    | Format with symbol           | `string` |
+| `format_localized($amount, $currency, $locale)` | Locale-aware format          | `string` |
+| `format_plain($amount, $currency)`              | Format without symbol        | `string` |
+| `format_with_code($amount, $currency)`          | Format with currency code    | `string` |
+| `render($amount, $currency)`                    | Render as HTML span          | `string` |
+| **Unit Conversion**                             |                              |          |
+| `to_smallest_unit($amount, $currency)`          | Convert to Stripe units      | `int`    |
+| `from_smallest_unit($amount, $currency)`        | Convert from Stripe units    | `float`  |
+| **Validation**                                  |                              |          |
+| `is_supported($currency)`                       | Check if supported           | `bool`   |
+| `is_zero_decimal($currency)`                    | Check if zero-decimal        | `bool`   |
 
 ## Requirements
 
