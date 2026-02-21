@@ -301,7 +301,7 @@ class Currency {
 	/**
 	 * Get currencies formatted as select options.
 	 *
-	 * Returns currencies in "CODE — Name" format suitable for
+	 * Returns currencies in "Name (symbol) — CODE" format suitable for
 	 * dropdown selects.
 	 *
 	 * @return array<string, string> Options keyed by currency code.
@@ -311,7 +311,26 @@ class Currency {
 		$options = [];
 
 		foreach ( self::CURRENCIES as $code => $config ) {
-			$options[ $code ] = $code . ' — ' . $config['name'];
+			$options[ $code ] = $config['name'] . ' (' . $config['symbol'] . ') — ' . $code;
+		}
+
+		return $options;
+	}
+
+	/**
+	 * Get currency codes as select options.
+	 *
+	 * Returns a simple code-to-code map suitable for compact dropdowns
+	 * where only the currency code is needed.
+	 *
+	 * @return array<string, string> Options keyed by currency code.
+	 * @since 1.0.0
+	 */
+	public static function get_codes(): array {
+		$options = [];
+
+		foreach ( self::CURRENCIES as $code => $config ) {
+			$options[ $code ] = $code;
 		}
 
 		return $options;
